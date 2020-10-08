@@ -50,17 +50,20 @@ window.onload = function(){
     });
 
     socket.on('awesome', data => {
+        let nowDate = new Date();
+
+        //  <div class="triangle"></div>
         let msg = `<div class="${(data.user.id === socket.id) ? "me" : "you"}">
                         <div class="entete">
-                            <h3>${Date()}</h3>
                             <h2>${data.user.nickname}</h2>
                             <span class="status ${(data.user.id === socket.id) ? " blue" : "green"}"></span>
+                            <h3  class="date">${nowDate.toLocaleString()}</h3>
                         </div>
-                        <div class="triangle"></div>
+                       
                         <div class="message">${data.msg}</div>
                     </div>`;
-        //let msg = document.createElement("div");
-        //msg.classList.add("msg");
+        let div = document.createElement("div");
+        div.classList.add("chat-wrap");
 
         if(data.user.id === socket.id){
             //msg.classList.add("my");
@@ -68,7 +71,8 @@ window.onload = function(){
         }else{
             //msg.innerHTML = data.user.nickname + " : " + data.msg;
         }
-        msgBox.innerHTML = msg;
+        div.innerHTML = msg;
+        msgBox.append(div);
         msgBox.scrollTop = msgBox.scrollHeight;
     });
 

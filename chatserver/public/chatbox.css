@@ -153,6 +153,9 @@ main header h3{
 	font-size:13px;
 	font-weight:normal;
 }
+.date {
+	display:block !important;
+}
 #chat h3{
 	color:#bbb;
 }
@@ -163,13 +166,16 @@ main header h3{
 	padding:20px;
 	color:#fff;
 	line-height:25px;
-	max-width:90%;
+	max-width:600px;
 	display:inline-block;
 	text-align:left;
 	border-radius:5px;
+	word-break:break-all;
 }
 #chat .me{
 	text-align:right;
+	
+	
 }
 #chat .you .message{
 	background-color:#58b666;
@@ -189,7 +195,14 @@ main header h3{
 }
 #chat .me .triangle{
 		border-color: transparent transparent #6fbced transparent;
-		margin-left:375px;
+		margin-left:975px;
+		transform: rotateY(53deg);
+}
+
+.chat-wrap {
+	/* position: absolute; */
+	/* right: 10px; */
+	padding: 15px;
 }
 
 main footer{

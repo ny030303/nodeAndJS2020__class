@@ -1,6 +1,7 @@
 * {
     margin:0;
     padding:0;
+    font-family: 'Roboto', sans-serif;
 }
 
 .container {
@@ -32,20 +33,64 @@
 }
 
 .inner {
-    width:400px;
-    height:300px;
-    border-radius: 10px;
-    background-color: #fff;
-    padding:20px;
+    width: 700px;
+    height: 375px;
+    /*border-radius: 10px;*/
+    background-color: rgb(247, 247, 247);
+    /*padding:20px;*/
+    position: relative;
+}
+.inner_header {
+    box-shadow: 0px 3px 0px #ddd;
+    padding: 39px 0;
+    text-align: center;
+    background-color: #ffff;
+}
+
+.inner_header h2 {
+    color: #605f63;
+    font-size: 35px;
+}
+
+#nickname {
+    display: block;
+    width: 450px;
+    height: 50px;
+    border: 2px solid #ddd;
+    margin: 61px auto;
+    outline: none;
+    font-size: 20px;
+}
+
+#btnLogin {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 36px;
+    border: 0;
+    background: #58b666;
+    font-size: 14px;
+    transition: .4s;
+    color: #fff;
+    cursor: pointer;
+}
+
+#btnLogin:hover {
+    background-color: #40a54f;
 }
 
 .user.my {
-    background-color: rgb(233, 221, 49);
+    background-color: #3780af;
+}
+
+.user.my:hover {
+    background-color: #3780af;
 }
 
 #msgBox {
     flex:1;
     overflow-y: scroll;
+    position: relative;
 }
 
 #inputBox {
@@ -59,11 +104,37 @@
     outline:none;
 }
 #btnSend {
-    width:60px;
+    width:109px;
+    background-color: #3780af;
+    border: 0;
+    color: #fff;
+    margin: 0 5px;
+    transition: .4s;
+}
+
+#btnSend:hover {
+    background-color: #266e9c;
 }
 #userList {
     flex:1;
+    background-color: #3b3e49;
+    border-radius: 0 10px 10px 0px;
 }
+
+#userList > div:first-child {
+    border-radius: 0 10px 0 0;
+}
+
+.user {
+    padding: 15px 11px;
+    color: #ddd;
+    transition: .4s;
+}
+.user:hover{
+    cursor: pointer;
+	background-color:#5e616a;
+}
+
 .msg {
     border: 1px solid #ddd;
     margin-bottom:10px;
@@ -75,5 +146,5 @@
 
 .msg.my {
     margin-left: 16%;
-    background-color: rgb(239,241,84);
+    background-color: #6fbced;
 }

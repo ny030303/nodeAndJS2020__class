@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>채팅서버</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/chatbox.css">
     <link rel="stylesheet" href="/app.css">
     <script src="/socket.io/socket.io.js"></script>
@@ -19,7 +20,7 @@
                 </div> 
                 <div id="inputBox">
                     <input type="text" id="msg">
-                    <button id="btnSend">전송</button>
+                    <button id="btnSend">ENTER</button>
                 </div>
             </div>
             <div id="userList">
@@ -30,9 +31,9 @@
     </div>
     <div id="popup">
         <div class="inner">
-            <h2>당신의 이름을 입력하세요</h2>
-            <input type="text" id="nickname">
-            <button id="btnLogin">입장하기</button>
+            <div class="inner_header"><h2>Wellcome!</h2></div>
+            <input type="text" id="nickname" placeholder="Enter your name.">
+            <button id="btnLogin">ENTER</button>
         </div>
     </div>
 </body>
