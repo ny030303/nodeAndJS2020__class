@@ -142,8 +142,8 @@ main header h3{
 	list-style-type:none;
 	overflow-y:scroll;
 	height:535px;
-	border-top:2px solid #fff;
-	border-bottom:2px solid #fff;
+	/* border-top:2px solid #fff;
+	border-bottom:2px solid #fff; */
 }
 #chat li{
 	padding:10px 30px;
