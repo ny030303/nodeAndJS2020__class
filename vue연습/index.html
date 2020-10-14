@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        #list {
+            width:800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap:10px;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            padding:8px 12px;
+            box-shadow: 2px 2px 2px rgba(0,0,0, 0.1);
+            border-radius: 0.75rem;
+        }
+        .popup {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+        .popup-contents {
+          width: 300px;
+          height: 300px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          text-align: center;
+          padding: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 이수안 감점 1 -->
+    <div id="app">
+        <div id="list">
+            <div class="item" v-for="u in userList">
+              <span>{{u.id}}</span>
+              <span>{{u.name}}</span>
+              <button @click="remove(u.id)">삭제</button>
+            </div>
+        </div>
+        <button @click="showPopup = true">추가하기</button>
+        <div v-if="showPopup" class="popup">
+          <div class="popup-contents">
+            <input type="text" v-model="inputName" placeholder="이름 내놔"  @keydown.enter="appendUser">
+            <button @click="appendUser">추가</button>
+            <button @click="showPopup = false">취소</button>
+          </div>
+        </div>
+    </div>
+    <script>
+        let v = new Vue({
+            el:"#app",
+            data:{
+               userList:[
+                  {id:1, name:"이수안"},
+                  {id:2, name:"임채영"},
+                  {id:3, name:"임상언"}, 
+                  {id:4, name:"김영현"}
+                ],
+                showPopup: false,
+                inputName: ""
+            },
+            methods:{
+              remove(userId) {
+                console.log(userId);
+                let idx = this.userList.findIndex(v => v.id == userId);
+                this.userList.splice(idx, 1);
+              },
+              appendUser() {
+                this.userList.push({id:this.maxId, name:this.inputName});
+                this.showPopup = false;
+                this.inputName = "";
+              }
+            },
+            computed: {
+              maxId(){
+                return Math.max(...this.userList.map(x => x.id)) + 1;
+              }
+            }
+        });
+    </script>
+</body>
+</html>

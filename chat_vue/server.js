@@ -30,14 +30,14 @@ io.on("connect", socket => {
         user_list.push({ id: socket.id, nickname: data });
         user = { id: socket.id, nickname: data };
         socket.emit("login_ok", { id: socket.id, nickname: data });
-        io.emit("user_list", [user_list , false]);
+        io.emit("user_list", user_list);
     });
 
     socket.on("disconnect", (data) => {
         let idx = user_list.findIndex(x => x.id === socket.id);
         if (idx < 0) return;
         let user = user_list.splice(idx, 1);
-        io.emit("user_list", [user_list , user[0].nickname]);
+        io.emit("user_list", user_list);
         log(user[0].nickname + "이 접속을 종료했습니다.");
     });
 
