@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    .flex-box {
+      display: flex;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <textarea cols="30" rows="10" v-model="text"></textarea>
+    {{text}}
+    <br>
+    <div class="flex-box">
+      <template v-for="name in nameList">
+        <input type="checkbox" :value="name" v-model="checkedValue">
+        <label>{{name}}</label>
+      </template>
+    </div>
+
+    <span>체크한 이름 : {{checkedValue}}</span>
+    <div class="flex-box">
+      <div v-for="name in nameList">
+        <input type="radio" :value="name" v-model="picked">
+        <label>{{name}}</label>
+      </div>
+    </div>
+    <span>선택한 이름 : {{picked}}</span>
+
+    <select v-model="selectedValue">
+      <option v-for="name in nameList" :value="name">{{name}}</option>
+    </select>
+    <span>선택한 이름 : {{selectedValue}}</span> -->
+
+    <div class="userList">
+      <user v-for="user in nameList" :key="user.id" :data="user"></user>
+    </div>
+
+  
+  </div>
+  <script>
+    Vue.component('user', {
+      template:`<div>{{data.name}}, {{data.age}}  <button @click="del">삭제</button></div>`,
+      props:{
+        data:Object
+      },
+      methods:{
+        del(){
+          this.$emit("del", data.id);
+        }
+      }
+    })
+    new Vue({
+      el: "#app",
+      data: {
+        // text: '',
+        // checkedValue: [],
+        nameList: [ 
+          {id:1, name:"정재성", age:14},
+          {id:1, name:"안진우", age:14},
+          {id:1, name:"박지호",  age:14},
+          {id:1, name:"전전제",  age:14},
+          {id:1, name:"박수진", age:14},
+        ],
+        // picked: null,
+        // selectedValue:''
+      },
+      methods:{
+        del(id){
+          this.nameList = this.nameList.filter(x => x.id !== id);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
