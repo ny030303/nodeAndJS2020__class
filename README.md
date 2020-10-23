@@ -10,5 +10,7 @@ https://github.com/ny030303/nodeAndJS2020__class/tree/master/chatserver <br>
 https://github.com/ny030303/nodeAndJS2020__class/tree/master/nodechat <br>
 * vue create hello로 만든 프로그램 : 
 https://github.com/ny030303/nodeAndJS2020__class/tree/master/hello <br>
-* package 사용해보기 프로그램 : 
+* webpack 사용해보기 프로그램 : 
 https://github.com/ny030303/nodeAndJS2020__class/tree/master/pack <br>
+* npm의 @vue/cli로 vue 프로젝트 생성한 chat 프로그램 :  
+https://github.com/ny030303/nodeAndJS2020__class/tree/master/chat <br>
