@@ -19,5 +19,6 @@ https://github.com/ny030303/nodeAndJS2020__class/tree/master/pack <br>
   * form 회원가입+로그인 프로그램 : https://github.com/ny030303/nodeAndJS2020__class/tree/master/vueserver <br>
 <br>
 <br>
+
 ### JS 프로젝트
-* 시계사진 슬라이드 프로젝트: 
+* 시계사진 슬라이드 프로젝트: https://github.com/ny030303/nodeAndJS2020__class/tree/master/JS_practice/wheel
