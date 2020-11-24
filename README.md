@@ -22,3 +22,4 @@ https://github.com/ny030303/nodeAndJS2020__class/tree/master/pack <br>
 
 ### JS 프로젝트
 * 시계사진 슬라이드 프로젝트: https://github.com/ny030303/nodeAndJS2020__class/tree/master/JS_practice/wheel
+* 수행평가 연습 1 (jquery로 서브메뉴 슬라이드 + 사진슬라이드) : https://github.com/ny030303/nodeAndJS2020__class/tree/master/JS_practice/perform_practice1
