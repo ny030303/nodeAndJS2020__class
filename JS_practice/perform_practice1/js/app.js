@@ -1,5 +1,17 @@
 window.onload = function() {
     $(".sub").hide();
+
+    $(".tabContent > div").eq(0).fadeIn();
+
+    $("#tabMenu > li").on("click",function() {
+        let idx = $(this).index();
+        $(".tabContent > div").hide();
+        $(".tabContent > div").eq(idx).fadeIn();
+        
+        $("#tabMenu > li").removeClass("on");
+        $(this).addClass("on");
+    });
+
     $("#main> li").hover(function(){
         $(this).children('ul').stop().slideDown();
     }, function(){
@@ -11,8 +23,10 @@ window.onload = function() {
 
     let idx = 0;
     setInterval(function() {
-        $(".slider > img").eq(idx+1).css({'left':'100%'}).animate({'left':0},800);
-        $(".slider > img").eq(idx).animate({'left':'-100%'},800);
-        idx = (idx + 1) % 3;
-    }, 1000);
+
+        let next = (idx + 1) % 3;
+        $(".slider > img").eq(next).css({'left':'100%'}).stop().animate({'left':0},800);
+        $(".slider > img").eq(idx).stop().animate({'left':'-100%'},800);
+        idx = next;
+    }, 2000);
 }

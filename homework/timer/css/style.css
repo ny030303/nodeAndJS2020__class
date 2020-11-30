@@ -1,0 +1,98 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+* {
+    margin:0;
+    padding:0;
+}
+ol, ul {
+    list-style: none;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color:#555;
+}
+img {
+    border:0;
+}
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    user-select:none;
+}
+
+.red-text {
+    color: #da0f0f;
+}
+.main-wrap {
+    
+}
+
+.timer {
+    width: 280px;
+    height: 193px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+
+.timer:hover {
+    background-color: rgb(233,233,233);
+}
+
+/* .timer:active{
+    background-color: rgb(208,208,208);
+}  */
+
+.timer-text {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.timer-text > span.on {
+    color: rgb(185,185,185);
+}
+
+.timer-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.timer-menu > div {
+    margin: 0 20px;
+    font-size: 21px;
+}
+
+.reset-btn {
+    color: rgb(185,185,185);
+}
+
+.start-btn {
+    border: 2px solid rgb(185,185,185);
+    border-radius: 50%;
+    padding: 11.5px 19px 15.5px 23px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.start-btn:hover {
+    background-color: rgb(209,209,209);
+}
+
+.sizeup-btn {
+    padding: 9px 0px;
+}
+.sizeup-btn:hover {
+    background-color: rgb(209,209,209);
+}
+.count-down {
+    margin: 10px 0;
+}
+
+.count-down-text {
+    font-weight: bold;
+}
