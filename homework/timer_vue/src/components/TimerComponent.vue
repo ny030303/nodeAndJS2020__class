@@ -3,16 +3,19 @@
         <div class="red-text">PC가 절전 모드 해제 상태인 경우에만 알림이 표시됩니다. <a href="#">자세히 알아보기</a></div>
         <div class="timer">
             <div class="timer-text z-up">
-                <span class="on">{{new Date(timerTs).toISOString().substr(11,2)}}:</span>
-                <span>{{new Date(timerTs).toISOString().substr(14,2)}}:</span>
-                <span>{{new Date(timerTs).toISOString().substr(17,2)}}</span>
+                <span :class="Number(new Date(timerTs).toISOString().substr(11,2)) == 0 ? 'on' : ''">{{new Date(timerTs).toISOString().substr(11,2)}}:</span>
+                <span :class="Number(new Date(timerTs).toISOString().substr(11,2)) == 0 
+                && Number(new Date(timerTs).toISOString().substr(14,2)) == 0 ? 'on' : ''">{{new Date(timerTs).toISOString().substr(14,2)}}:</span>
+                <span :class="Number(new Date(timerTs).toISOString().substr(11,2)) == 0 
+                && Number(new Date(timerTs).toISOString().substr(14,2)) == 0 && 
+                Number(new Date(timerTs).toISOString().substr(17,2)) == 0 ? 'on' : ''">{{new Date(timerTs).toISOString().substr(17,2)}}</span>
             </div>
             <div class="timer-menu z-up">
                 <div class="reset-btn" @click="(e) => reset(e)"> 
                     <font-awesome-icon icon="redo" />
                 </div>
                 <div class="start-btn"  @click="play()">
-                    <font-awesome-icon icon="play" />
+                    <font-awesome-icon :icon="!isPlay ? 'play' : 'pause'" />
                 </div>
                 <div class="sizeup-btn">
                     <font-awesome-icon icon="expand-alt" />
@@ -22,7 +25,7 @@
                 <div class="count-down-name">{{timerName}}</div>
                 <div class="count-down-text">{{timerValue}}</div>
             </div>
-            <div class="timer-back" @click="$router.push({path: '/edit'})"></div>
+            <div class="timer-back" @click="() => {if(!isPlay) $router.push({path: '/edit'})}"></div>
         </div>
     </div> 
 </template>
@@ -37,14 +40,17 @@ export default {
             timerTs: 0,
             timerName: '카운트 다운',
             timerValue: '00:00:00',
-            timerInterval: null
+            timerInterval: null,
+            isPlay: false
         }
     }, 
     mounted() {
         if(document.myTimer) {
-            console.log(document.myTimer);
+            // console.log(document.myTimer);
             this.timerValue = document.myTimer.time;
+            this.timerName = document.myTimer.name;
             this.timerTs = new Date(`1970-01-01T${this.timerValue}.000Z`).getTime();
+            this.isPlay = true;
             this.start();
         }
     },
@@ -54,12 +60,24 @@ export default {
                 this.timerTs = new Date(`1970-01-01T${this.timerValue}.000Z`).getTime();
             }
         },
+        play() {
+            if(document.myTimer) {
+                if(!this.isPlay) { // false 일 때
+                    this.isPlay = true;
+                    if(this.timerInterval == null) this.start();
+                } else {
+                    this.isPlay = false;
+                }
+            }
+        },
         start() {
             if(document.myTimer) {
                 this.timerInterval = setInterval(() => {
-                    this.timerTs -= 1000;
+                    if(this.isPlay) this.timerTs -= 1000;
                     if( this.timerTs < 0 ) { 
                         clearInterval(this.timerInterval);
+                        this.timerInterval = null;
+                        this.isPlay = false;
                         alert("타이머 종료 알림");
                         this.timerTs = new Date(`1970-01-01T${this.timerValue}.000Z`).getTime();
                     }
@@ -137,7 +155,7 @@ export default {
 .start-btn {
     border: 2px solid rgb(185,185,185);
     border-radius: 50%;
-    padding: 11.5px 19px 15.5px 23px;
+    padding: 11.5px 21px 15.5px 21px;
     text-align: center;
     font-size: 16px;
 }

@@ -9,7 +9,9 @@
                         <font-awesome-icon icon="angle-up"/>
                     </button>
                     <ul>
-                        <li v-for="(item, index) in hours" :key="index" :class="index == 3 ? 'select-on' : ''">
+                        <li v-for="(item, index) in hours" 
+                        :key="index" :class="index == 3 ? 'select-on' : ''" 
+                        @mousewheel="(e) => wheelEvent(e, 'hours')" @click="setHMS(item, 24, 'hours');">
                            {{('0'+item).substr(-2)}}
                         </li>
                     </ul>
@@ -22,7 +24,9 @@
                         <font-awesome-icon icon="angle-up"/>
                     </button>
                     <ul>
-                        <li v-for="(item, index) in minutes" :key="index" :class="index == 3 ? 'select-on' : ''">
+                        <li v-for="(item, index) in minutes" 
+                        :key="index" :class="index == 3 ? 'select-on' : ''" 
+                        @mousewheel="(e) => wheelEvent(e, 'minutes')" @click="setHMS(item, 60, 'minutes');">
                             {{('0'+item).substr(-2)}}
                         </li>
                     </ul>
@@ -35,7 +39,9 @@
                         <font-awesome-icon icon="angle-up"/>
                     </button>
                     <ul>
-                         <li v-for="(item, index) in seconds" :key="index" :class="index == 3 ? 'select-on' : ''">
+                         <li v-for="(item, index) in seconds" 
+                         :key="index" :class="index == 3 ? 'select-on' : ''" 
+                         @mousewheel="(e) => wheelEvent(e, 'seconds')"  @click="setHMS(item, 60, 'seconds');">
                             {{('0'+item).substr(-2)}}
                         </li>
                     </ul>
@@ -63,10 +69,18 @@ export default {
     name: 'timerEditComponent',
     data() {
         return {
-            hours: [0,1,2,3,4,5,6],
-            minutes: [0,1,2,3,4,5,6],
-            seconds: [0,1,2,3,4,5,6],
+            hours: [21,22,23,0,1,2,3],
+            minutes: [57,58,59,0,1,2,3],
+            seconds: [57,58,59,0,1,2,3],
             timerName: "카운트 다운"
+        }
+    },
+    mounted() {
+        if(document.myTimer) {
+            this.timerName = document.myTimer.name;
+            this.setHMS(Number(document.myTimer.time.substr(0,2)), 24, 'hours');
+            this.setHMS(Number(document.myTimer.time.substr(3,2)), 60, 'minutes');
+            this.setHMS(Number(document.myTimer.time.substr(6,2)), 60, 'seconds');
         }
     },
     methods: {
@@ -86,23 +100,50 @@ export default {
                 datas.splice(datas.length-1, 1);
             }
         },
-        incrementHour(value) {
-            this.incrementRotate('hours', value);
-        },
-        incrementMinute(value) {
-            this.incrementRotate('minutes', value);
-        },
-        incrementSecond(value) {
-            this.incrementRotate('seconds', value);
-        },
+        incrementHour(value) {this.incrementRotate('hours', value);},
+        incrementMinute(value) {this.incrementRotate('minutes', value);},
+        incrementSecond(value) {this.incrementRotate('seconds', value);},
 
         runTimer() {
             const zeroPad = (v) => ('0' + v).substr(-2);
             document.myTimer = {name: this.timerName, time: `${zeroPad(this.hours[3])}:${zeroPad(this.minutes[3])}:${zeroPad(this.seconds[3])}`};
             this.$router.push({path: '/'});
         },
-
-
+        
+        wheelEvent(e, type) {
+            switch(type) {
+                case 'hours':
+                    if(e.wheelDelta > 0)  this.incrementHour(-1); 
+                    else  this.incrementHour(1);
+                    break;
+                case 'minutes':
+                    if(e.wheelDelta > 0)  this.incrementMinute(-1); 
+                    else  this.incrementMinute(1);
+                    break;
+                case 'seconds':
+                    if(e.wheelDelta > 0)  this.incrementSecond(-1); 
+                    else  this.incrementSecond(1);
+                    break;
+            }
+            
+        },
+        setHMS(time, max, hmsArrName) {
+            let arr = [this.decTime(max,3,time),  this.decTime(max,2,time), this.decTime(max,1,time), 
+                        time, this.incTime(max,1,time), this.incTime(max,2,time), this.incTime(max,3,time)];
+             switch(hmsArrName) {
+                case 'hours':
+                    this.hours = arr;
+                     break;
+                case 'minutes':
+                    this.minutes = arr;
+                    break;
+                case 'seconds':
+                    this.seconds = arr;
+                    break;
+            }
+        },
+        incTime(max, incNum, time) {return (time + incNum) % max},
+        decTime(max, decNum, time) {return (max + (time - decNum)) % max}
     }
 }
 </script>
@@ -136,7 +177,7 @@ export default {
     
 
     .timer-edit-form  ul li {
-        padding: 10px 70px;
+        padding: 12px 70px;
         background-color: rgb(242,242,242);
 
         border-right: 1px solid rgb(194,194,194);
@@ -168,19 +209,19 @@ export default {
         display: none;
         position: absolute;
         width: 100%;
-        padding: 5px 0;
+        padding: 2px 0;
         background-color: rgb(230,230,230);
         border: 1px solid rgb(194,194,194);
         outline: none;
     }
 
     .edit-up-btn {
-        top: 17px;
+        top: 31px;
         border-bottom: none;
     }
 
     .edit-down-btn {
-        bottom: 17px;
+        bottom: 31px;
         border-top: none;
     }
 
