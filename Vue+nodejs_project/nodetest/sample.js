@@ -1,15 +1,13 @@
-const data = {
-    name:'정재성',
-    age: 40
+function getCovidData() {
+    // 여기서 뭔가 시간이 걸리는 작업이 이뤄지는 거야(비동기로)
+    return new Promise((resolve,reject)=> {
+        setTimeout(() => {
+            resolve("Hello world");
+        }, 3000);
+    });
+    
 }
 
-module.exports.jae = function (a, b) {
-    return a + b;
-} 
-
-module.exports.data = data;
-
-// module.exports = {
-//     jae: jaesung,
-//     data: data
-// }
+getCovidData().then(x=> {
+    console.log(x);
+});

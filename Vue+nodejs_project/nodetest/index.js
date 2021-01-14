@@ -1,47 +1,65 @@
-const cheerio = require('cheerio');
-const request = require('request');
+const {getCovidData} = require('./Covid');
+const express = require('express'); //지금 설치한 express를 가져온다.
+const http = require('http');
+const path = require('path');
 
-const url = "http://ncov.mohw.go.kr/bdBoardList_Real.do";
+//con은 안가져오고 query만 Q라는 이름으로 가져올꺼야.
+const {query:Q} = require('./DB'); //구조분해 할당
 
-request(url, (err,res, body) => {
-    const $ = cheerio.load(body);
-    let list = {
-        t1: $(".ca_value").eq(0).html(),
-        t_i:[$(".inner_value").eq(0).html(), 
-            $(".inner_value").eq(1).html(), 
-            $(".inner_value").eq(2).html()
-        ],
-        t2: [$(".ca_value").eq(2).html(), $(".ca_value .txt_ntc").eq(0).html()],
-        t3: [$(".ca_value").eq(4).html(), $(".ca_value .txt_ntc").eq(1).html()],
-        t4: [$(".ca_value").eq(6).html(), $(".ca_value .txt_ntc").eq(2).html()]
-    };
-    console.log(`
-        확진환자 누적 : ${list.t1}
-        확진환자 전일대비 소계 : ${list.t_i[0]}
-        확진환자 전일대비 국내발생 : ${list.t_i[1]}
-        확진환자 전일대비 해외유입 : ${list.t_i[2]}
-        격리해제 누적 : ${list.t2[0]}
-        격리해제 전일대비 : ${list.t2[1]}
-        격리중 누적 : ${list.t3[0]}
-        격리중 전일대비 : ${list.t3[1]}
-        사망 누적 : ${list.t4[0]}
-        사망 전일대비 : ${list.t4[1]}
-    `);
+// React와 Node를 마스터한 자 정나영
+
+//익스프레스를 이용하여 웹서버 만들기
+const app = express();
+const server = http.createServer(app);
+
+
+//이거 두줄 설명이요.
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+//정적파일은 public폴더를 참조하도록 코드를 작성한다
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', async (req, res)=>{
+    console.time("render");
+    const existSql = "SELECT * FROM covid_data WHERE date = ?";
+    // 여기서 오늘날짜를 받아서 
+    let today = new Date().toISOString().slice(0,10);
+
+    let existData = await Q(existSql, [today]);
+
+    if(existData.length === 0){
+        getCovidData().then(d => {
+            if(d.date == today) { // 날짜가 오늘이면
+                const sql = 
+                `INSERT INTO covid_data(date, total, covid, covid_d, covid_o, 
+                                        freecnt, freecnt_compare, inprison, inprison_compare, 
+                                        death, death_compare)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                 d.dataCheck = true;
+                res.render('main', d);
+                
+                let valueList = [];
+                for( let key in d){
+                    valueList.push(d[key]);
+                }
+
+                Q(sql, valueList).then( data => {
+                    console.timeEnd("render");
+                });          
+            } else {
+                console.log("오늘 코로나 데이터는 없어요;;");
+                res.render('main', {dataCheck : false});
+            }
+              
+        });
+    }else{
+        existData[0].dataCheck = true;
+        res.render('main', existData[0]);
+        console.timeEnd("render");
+    }
 });
-// let html = `
-//     <div class="abc">asddassd</div>
-//     <div class="gondr">sss</div>
-//     <div class="ccc">qwe</div>
-// `;
 
-// let $ = cheerio.load(html);
-// const msg = $("gondr").html();
-
-// console.log(cheerio); // JSOUP
-// document =>
-// 문서 객체 -> HTML 문서를 해석해서 DOM 형태로 트리구조화 시켜놓은 것을 담고 있는 객체
-// 
-
-// 노드는 브라우저 플랫폼을 벗어나서
-// 컴퓨터 어디든 js 실행을 시킬수 있는 환경을 만들어주는거
-// npm === gradle === packgist(composer) === pip
+server.listen(54000, ()=>{
+    console.log("서버가 54000번 포트에서 동작중입니다.");
+});
